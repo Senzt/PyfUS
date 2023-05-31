@@ -5,6 +5,10 @@ Created on Wed May 31 22:28:52 2023
 @author: Senzt
 """
 
+import numpy as np
+import matplotlib.pyplot as plt
+
+
 def epochs(PD, start, stop):
     print("epoch test")
     
