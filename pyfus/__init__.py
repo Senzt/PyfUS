@@ -1,3 +1,3 @@
-from functions import epochs
-from load import io
+from .functions import epochs
+from .load import io
 
