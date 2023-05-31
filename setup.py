@@ -11,11 +11,11 @@ setup(
     name="PyfUS",
     version="0.1",
     packages=find_packages(),
-    author="Your Name",
-    author_email="Your Email",
+    author="Waradon Senzt Phokhinanan",
+    author_email="waradonai@gmail.com",
     description="A brief description of your package",
     long_description="A longer description of your package",
-    url="https://github.com/senzt/PyfUS",
+    url="https://github.com/Senzt/PyfUS",
     install_requires=[
         "numpy",  # for example, if your package depends on numpy
     ],
