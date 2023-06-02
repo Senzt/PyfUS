@@ -62,15 +62,18 @@ def epochs(obj, start, stop):
 
     # Now plot the subset data
     plt.figure()
+    
+    # Get the maximum time points across all subset data in the dictionary
+    max_subset_time_points = max([data.shape[1] for data in subset_dict.values()]) + start
+    subset_time_points = np.arange(start, max_subset_time_points)
+
     for key, data in subset_dict.items():
         mean_data = np.mean(data, axis=0)
         min_data = np.min(data, axis=0)
         max_data = np.max(data, axis=0)
 
-        subset_time_points = np.arange(start, start + mean_data.shape[0])  # the length of subset_time_points matches mean_data
-
-        plt.plot(subset_time_points, mean_data, label=key)
-        plt.fill_between(subset_time_points, min_data, max_data, alpha=0.1)
+        plt.plot(subset_time_points[:mean_data.shape[0]], mean_data, label=key)
+        plt.fill_between(subset_time_points[:mean_data.shape[0]], min_data, max_data, alpha=0.1)
 
     plt.xlabel('Time point')
     plt.ylabel('CBV %')
