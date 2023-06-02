@@ -34,6 +34,10 @@ def epochs(obj, start, stop):
     cbv_dict = obj.mean_dict
     subset_dict = {}
 
+    # Get the maximum time points across all data in the dictionary
+    max_time_points = max([data.shape[1] for data in cbv_dict.values()])
+    time_points = np.arange(max_time_points)
+
     for key, data in cbv_dict.items():
         mean_data = np.mean(data, axis=0)
         min_data = np.min(data, axis=0)
@@ -42,9 +46,8 @@ def epochs(obj, start, stop):
         # Subset the data within start and stop
         subset_dict[key] = data[:, start:stop]
 
-        time_points = np.arange(mean_data.shape[0])  # Changed this to numpy array
-        plt.plot(time_points, mean_data, label=key)
-        plt.fill_between(time_points, min_data, max_data, alpha=0.1)
+        plt.plot(time_points[:mean_data.shape[0]], mean_data, label=key)  # plot only up to the length of mean_data
+        plt.fill_between(time_points[:mean_data.shape[0]], min_data, max_data, alpha=0.1)  # fill only up to the length of mean_data
 
     # Draw vertical lines and fill area before start and after stop
     plt.axvline(x=start, color='r', linestyle='--')
@@ -56,6 +59,24 @@ def epochs(obj, start, stop):
     plt.xlim(time_points[0], time_points[-1])  # Set x-axis limits to match range of data
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  
     plt.show()  
+
+    # Now plot the subset data
+    plt.figure()
+    for key, data in subset_dict.items():
+        mean_data = np.mean(data, axis=0)
+        min_data = np.min(data, axis=0)
+        max_data = np.max(data, axis=0)
+
+        subset_time_points = np.arange(start, start + mean_data.shape[0])  # the length of subset_time_points matches mean_data
+
+        plt.plot(subset_time_points, mean_data, label=key)
+        plt.fill_between(subset_time_points, min_data, max_data, alpha=0.1)
+
+    plt.xlabel('Time point')
+    plt.ylabel('CBV %')
+    plt.xlim(subset_time_points[0], subset_time_points[-1])  # Set x-axis limits to match range of data
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  
+    plt.show()
 
     return subset_dict
     
